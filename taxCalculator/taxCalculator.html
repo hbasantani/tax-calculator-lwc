@@ -9,7 +9,7 @@
                             type="button">
         </lightning-radio-group>
         <lightning-input type="number" name="annualSalary" label="Total Annual Salary" value={annualSalary} formatter="currency" step="0.01" onchange={performCalculation} class="annualSalary" required></lightning-input>
-        <lightning-input type="number" name="variableComp" label="Variable Component" value={variableComp} formatter="currency" step="0.01" onchange={performCalculation} class="variableComp" required></lightning-input>
+        <lightning-input type="number" name="variableComp" label="Variable Component" value={variableComp} formatter="currency" step="0.01" onchange={performCalculation} class="variableComp"></lightning-input>
         <lightning-input type="number" name="fixedComp" label="Fixed Component" value={fixedComp} formatter="currency" step="0.01" disabled></lightning-input>
         <lightning-input type="number" name="basicPay" label="Basic Salary" value={basicPay} formatter="currency" step="0.01" onchange={performCalculation} class="basicPay" required></lightning-input>
         <lightning-input type="checkbox" label="PF Amount is different?" name="pfAmountCheck" checked={fixedPfAmount} class="slds-p-around_x-small" onchange={performCalculation}></lightning-input>
@@ -44,6 +44,7 @@
         </div>
         <div if:true={showCalculation} class="slds-p-top_medium" >
             <lightning-button label="Hide Tax Calculation" onclick={hideTaxCalculation}></lightning-button>
+            <!--<lightning-button label="Save Calculation" variant="brand" onclick={saveCalculation} class="slds-float_right"></lightning-button>-->
         </div>
         <div if:true={showCalculation} class="slds-p-around_medium" >
             <c-show-tax-calculation tax-calculation-factors={factors}

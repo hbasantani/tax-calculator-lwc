@@ -1,4 +1,5 @@
 import { LightningElement, track } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class TaxCalculator extends LightningElement {
     taxRegimeValue = 'Old';
@@ -17,8 +18,8 @@ export default class TaxCalculator extends LightningElement {
     medical = 0;
     special = 0;
 
-    @track factors = {"annualSalary":"0", "fixedComp": "0", "variableCom":"0", "basicPay":"0",
-                      "pfAmount":"0", "taxRegime":"0", "hra":"0",};
+    @track factors = {"fixedComp": "0", "basicPay":"0",
+                      "pfAmount":"0", "taxRegime":"Old", "hra":"0",};
     @track exemptions = {"monthlyHra":"0", "investment":"0", "donation":"0"};
     get taxRegimeOptions() {
         return [
@@ -26,7 +27,7 @@ export default class TaxCalculator extends LightningElement {
             { label: 'New', value: 'New' },
         ];
     }
-
+    
     handleTaxRegimeChange(event){
         this.taxRegimeValue = event.target.value;
         this.factors["taxRegime"] = this.taxRegimeValue;   
@@ -78,8 +79,8 @@ export default class TaxCalculator extends LightningElement {
     }
 
     handleCustomValidation() {
-        let variableComp=this.template.querySelector(".variableComp"); 
-        let annualSalaryComp=this.template.querySelector(".annualSalary"); 
+        let variableComp = this.template.querySelector(".variableComp"); 
+        let annualSalaryComp = this.template.querySelector(".annualSalary"); 
         if(this.annualSalary === '' || parseInt(this.annualSalary) < 0){
             //set an error
             annualSalaryComp.setCustomValidity("Enter a valid positive value");
@@ -120,9 +121,17 @@ export default class TaxCalculator extends LightningElement {
     }
 
     showTaxCalculation(){
-        this.showCalculation = true;
-        this.factors["taxRegime"] = this.taxRegimeValue;
-        //this.template.querySelector('c-show-tax-calculation').calculate();
+        if(this.annualSalary === '' || parseInt(this.annualSalary) === 0){
+            const evt = new ShowToastEvent({
+                title: 'Error',
+                message: 'Enter Annual Salary before checking the Tax Calculation',
+                variant: 'error',
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(evt);
+        } else{
+            this.showCalculation = true;
+        }
     }
 
     hideTaxCalculation(){

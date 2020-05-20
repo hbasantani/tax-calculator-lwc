@@ -39,18 +39,6 @@ export default class ShowTaxCalculation extends LightningElement {
             this.handleMonthlyHraChange(exemptions["monthlyHra"]);
             this.handleInvestmentChange(exemptions["investment"]);
             this.handleDonationChange(exemptions["donation"]);
-            /*let netTaxableSalary = parseFloat(annualAmountMinusPf) - (parseFloat(this.totalHra) + parseFloat(this.totalInvestment) + parseFloat(this.donationUnder80G) + parseFloat(this.standardDeduction));
-            if(parseInt(netTaxableSalary) > 1000000){
-                this.taxAmount = (250000 * 0.05) + (500000 * 0.20);
-                this.taxAmount += (netTaxableSalary - 1000000) * 0.3;
-            } else if(parseInt(netTaxableSalary) > 500000){
-                this.taxAmount = (250000 * 0.05);
-                this.taxAmount += (netTaxableSalary - 500000) * 0.2;
-            } else if(parseInt(netTaxableSalary) > 250000){
-                this.taxAmount += (netTaxableSalary- 250000) * 0.05;
-                //Rebate under 87A
-                this.taxAmount = 0;
-            }*/
         } else if(factors["taxRegime"] === 'New'){
             this.calculateTaxNew();
             this.calculateNetValues();
@@ -147,6 +135,12 @@ export default class ShowTaxCalculation extends LightningElement {
     }
     calculateNetValues(){
         this.netInHandAnnual = this.taxCalculationFactors["fixedComp"] - this.totalPfAmount - this.taxAmount - this.professionTax;
-        this.netMonthlyInHand = this.netInHandAnnual/12;
+        if(this.netInHandAnnual < 0){
+            this.netInHandAnnual = 0;
+            this.professionTax = 0;
+            this.standardDeduction = 0;
+        } else{
+            this.netMonthlyInHand = this.netInHandAnnual/12;
+        }
     }
 }
