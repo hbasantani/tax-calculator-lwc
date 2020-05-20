@@ -1,0 +1,9 @@
+<template>
+    <div class="slds-p-top_medium">
+        <div class="slds-text-body_regular">Enter Tax Exemption Details</div>
+        <lightning-input type="number" name="monthlyHra" label="Rent Paid/Month" value={monthlyHra} formatter="currency" step="0.01" onchange={handleChange} class="monthlyHra"></lightning-input>
+        <lightning-input type="number" name="annualHra" label="Annual Rent Paid" value={annualHra} formatter="currency" step="0.01" class="annualHra" disabled></lightning-input>
+        <lightning-input type="number" name="investment" label="Total Investment Under 80C" value={investment} formatter="currency" step="0.01" onchange={handleChange}></lightning-input>
+        <lightning-input type="number" name="donation" label="Donations Made Under 80G" value={donation} formatter="currency" step="0.01" onchange={handleChange}></lightning-input>        
+    </div>
+</template>

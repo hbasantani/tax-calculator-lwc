@@ -1,0 +1,78 @@
+<template>
+    <table class="slds-table slds-table_cell-buffer">
+        <tbody>
+        <tr class="slds-hint-parent">
+        <td>
+        <div class="slds-truncate" title="Net In-hand Salary">Net In-hand Salary</div>
+        </td>
+        <td>
+        <div class="slds-truncate">
+            <lightning-formatted-number value={netInHandAnnual} format-style="currency" currency-code="INR"></lightning-formatted-number>
+        </div>
+        </td>
+        <td>
+        <div class="slds-truncate" title="Net Monthly Salary">Net Monthly Salary</div>
+        </td>
+        <td>
+        <div class="slds-truncate">
+            <lightning-formatted-number value={netMonthlyInHand} format-style="currency" currency-code="INR"></lightning-formatted-number>
+        </div>
+        </td>
+        </tr>
+        <tr class="slds-hint-parent slds-p-top_medium">
+            <td>
+            <div class="slds-truncate">Tax Deduction Per Month</div>
+            </td>
+            <td>
+            <div class="slds-truncate">
+                <lightning-formatted-number value={taxPerMonth} format-style="currency" currency-code="INR"></lightning-formatted-number>
+            </div>
+            </td>
+            <td>
+            <div class="slds-truncate">Total Profession Tax</div>
+            </td>
+            <td>
+            <div class="slds-truncate">
+                <lightning-formatted-number value={professionTax} format-style="currency" currency-code="INR"></lightning-formatted-number>
+            </div>
+            </td>
+            </tr>
+        <tr class="slds-hint-parent slds-p-top_medium">
+        <td>
+        <div class="slds-truncate">Total Tax Deduction</div>
+        </td>
+        <td>
+        <div class="slds-truncate">
+            <lightning-formatted-number value={taxAmount} format-style="currency" currency-code="INR"></lightning-formatted-number>
+        </div>
+        </td>
+        <td>
+        <div class="slds-truncate">Total PF/Pension Amount</div>
+        </td>
+        <td>
+        <div class="slds-truncate">
+            <lightning-formatted-number value={totalPfAmount} format-style="currency" currency-code="INR"></lightning-formatted-number>
+        </div>
+        </td>
+        </tr>
+        <tr if:true={isTaxRegimeOld} class="slds-hint-parent slds-p-top_medium">
+            <td>
+            <div class="slds-truncate" title="Standard Deduction">Standard Deduction</div>
+            </td>
+            <td>
+            <div class="slds-truncate">
+                <lightning-formatted-number value={standardDeduction} format-style="currency" currency-code="INR"></lightning-formatted-number>
+            </div>
+            </td>
+            <td>
+            <div class="slds-truncate" title="Total HRA">Total HRA</div>
+            </td>
+            <td>
+            <div class="slds-truncate">
+                <lightning-formatted-number value={totalHra} format-style="currency" currency-code="INR"></lightning-formatted-number>
+            </div>
+            </td>
+            </tr>
+        </tbody>
+        </table>
+</template>

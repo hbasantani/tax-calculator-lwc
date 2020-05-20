@@ -1,0 +1,53 @@
+<template>
+    <div class="slds-box slds-theme_default">
+        <lightning-radio-group name="taxRegime"
+                            label="Select Tax Regime"
+                            options={taxRegimeOptions}
+                            value={taxRegimeValue}
+                            onchange ={handleTaxRegimeChange}
+                            required
+                            type="button">
+        </lightning-radio-group>
+        <lightning-input type="number" name="annualSalary" label="Total Annual Salary" value={annualSalary} formatter="currency" step="0.01" onchange={performCalculation} class="annualSalary" required></lightning-input>
+        <lightning-input type="number" name="variableComp" label="Variable Component" value={variableComp} formatter="currency" step="0.01" onchange={performCalculation} class="variableComp" required></lightning-input>
+        <lightning-input type="number" name="fixedComp" label="Fixed Component" value={fixedComp} formatter="currency" step="0.01" disabled></lightning-input>
+        <lightning-input type="number" name="basicPay" label="Basic Salary" value={basicPay} formatter="currency" step="0.01" onchange={performCalculation} class="basicPay" required></lightning-input>
+        <lightning-input type="checkbox" label="PF Amount is different?" name="pfAmountCheck" checked={fixedPfAmount} class="slds-p-around_x-small" onchange={performCalculation}></lightning-input>
+        <div if:true={fixedPfAmount}>
+            <label class="slds-form-element__label">PF Amount/Retirement Benefit</label>
+            <lightning-helptext content="Note: This is the employer's contribution to PF. An equivalent amount is deducted from your salary in equal installments every month."></lightning-helptext>
+            <lightning-input type="number" name="pfAmount" label="PF Amount/Retirement Benefit" value={pfAmount} formatter="currency" step="0.01" onchange={performCalculation} variant="label-hidden" required>
+            </lightning-input>
+        </div>
+        <div if:false={fixedPfAmount}>
+            <label class="slds-form-element__label">Calculated PF Amount/Retirement Benefit</label>
+            <lightning-helptext content="Note: This is the employer's contribution to PF. An equivalent amount is deducted from your salary in equal installments every month."></lightning-helptext>
+            <lightning-input type="number" name="calculatedPfAmount" label="Calculated PF Amount/Retirement Benefit" value={calculatedPfAmount} formatter="currency" step="0.01" variant="label-hidden" disabled>
+            </lightning-input>
+        </div>
+        <lightning-input type="number" name="pfPerMonth" label="PF Amount/Month" value={pfPerMonth} formatter="currency" step="0.01" class="pfPerMonth" disabled></lightning-input>
+        <template if:true={isTaxRegimeOld}>
+            <lightning-input type="number" name="hra" label="HRA" value={hra} formatter="currency" step="0.01" onchange={performCalculation} class="hra" required></lightning-input>
+            <div if:false={showTaxExemptionDetails} class="slds-p-top_medium">
+                <lightning-button label="Add Tax Exemption Details" onclick={showTaxExemptionComp}></lightning-button>
+            </div>
+            <div if:true={showTaxExemptionDetails} class="slds-p-top_medium" >
+                <div class="slds-border_top"></div>
+                <c-add-tax-exemptions exemptions={exemptions}
+                                      onmonthlyhrachange={handleHraChange} 
+                                      oninvestmentchange={handleInvestmentChange}
+                                      ondonationchange={handleDonationChange}></c-add-tax-exemptions>
+            </div>
+        </template>
+        <div if:false={showCalculation} class="slds-p-top_medium" >
+            <lightning-button label="Show Tax Calculation" onclick={showTaxCalculation}></lightning-button>
+        </div>
+        <div if:true={showCalculation} class="slds-p-top_medium" >
+            <lightning-button label="Hide Tax Calculation" onclick={hideTaxCalculation}></lightning-button>
+        </div>
+        <div if:true={showCalculation} class="slds-p-around_medium" >
+            <c-show-tax-calculation tax-calculation-factors={factors}
+                                    exemptions={exemptions}></c-show-tax-calculation>
+        </div>        
+    </div>
+</template>
